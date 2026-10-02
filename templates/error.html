@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}FitBuddy | Error{% endblock %}
+
+{% block content %}
+<section class="error-card card">
+    <div class="icon">!</div>
+    <div class="eyebrow">REQUEST ERROR {{ status_code }}</div>
+    <h1>Something needs attention.</h1>
+    <p>{{ message }}</p>
+    <a class="primary-btn inline-btn" href="/">Back to FitBuddy</a>
+</section>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}FitBuddy | All Users{% endblock %}
+
+{% block content %}
+<section class="result-head">
+    <div>
+        <div class="eyebrow">ADMIN / COACH VIEW</div>
+        <h1>All registered users</h1>
+        <p>Review stored user details and original/updated plans.</p>
+    </div>
+</section>
+
+<div class="card table-card">
+    {% if users %}
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Profile</th>
+                    <th>Goal</th>
+                    <th>Intensity</th>
+                    <th>Original Plan</th>
+                    <th>Updated Plan</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>
+                        <strong>{{ user.username }}</strong>
+                        <small>{{ user.user_id }}</small>
+                    </td>
+                    <td>{{ user.age }} yrs · {{ user.weight }} kg</td>
+                    <td>{{ user.goal|title }}</td>
+                    <td>{{ user.intensity|title }}</td>
+                    <td>
+                        {% if user.plan %}
+                            <a href="/result/{{ user.user_id }}">View plan</a>
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if user.plan and user.plan.updated_plan %}
+                            <span class="status-chip">Updated</span>
+                        {% else %}
+                            <span class="muted">Original only</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <form action="/admin/delete/{{ user.user_id }}" method="post" onsubmit="return confirmDelete('{{ user.username }}')">
+                            <button class="danger-btn" type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <div class="empty-state">
+            <h2>No users yet</h2>
+            <p>Create a plan from the home page to see it here.</p>
+            <a class="primary-btn inline-btn" href="/">Create plan</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
